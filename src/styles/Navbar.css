@@ -1,0 +1,39 @@
+/* Navbar should span the full width and not be too tall */
+.navbar {
+    width: 100%;
+    height: 60px;  /* Adjust height to keep it slim */
+    background-color: #3564a3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  
+  /* Logo styling */
+  .logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  /* Navigation links */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-item {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .nav-item:hover {
+    text-decoration: underline;
+  }
+  

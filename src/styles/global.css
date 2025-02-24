@@ -1,0 +1,113 @@
+/* Apply white background to the entire app */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Ensure all pages have consistent styling */
+  .app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  button {
+    background-color: #3564a3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #21487c; 
+  }
+
+  /* Dropdown Styling */
+select {
+    background-color: white; /* ✅ White background */
+    color: black; /* ✅ Black text */
+    border: 2px solid #ccc; /* ✅ Subtle border */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 220px; /* Adjust width as needed */
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* Hover Effect */
+  select:hover {
+    border-color: #21487c;
+  }
+  
+  /* Focus Effect */
+  select:focus {
+    outline: none;
+    border: 2px solid #3564a3;
+    box-shadow: 0 0 5px #21487c(0, 0, 139, 0.5);
+  }
+  
+  /* Remove default arrow & use custom style */
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="black"><path d="M5 8l5 5 5-5H5z"/></svg>'); 
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+  }     
+
+  /* Search Bar Container */
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Search Input Field */
+  .search-bar input[type="text"] {
+    background-color: white; /* ✅ White background */
+    color: #1f3f68;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 300px; /* ✅ Wider input field */
+    font-weight: bold;
+  }
+  
+  /* Focus Effect */
+  .search-bar input[type="text"]:focus {
+    outline: none;
+    border-color: #3564a3;
+    box-shadow: 0 0 5px #3564a3;
+  }
+  
+  /* Search Button */
+  .search-button {
+    padding: 10px;
+    background-color: #3564a3; /* ✅ Blue button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Hover Effect */
+  .search-button:hover {
+    background-color: #21487c;
+  }
+  
+  
+  
