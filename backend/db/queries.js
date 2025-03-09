@@ -11,11 +11,22 @@ async function getVotesByConstituency(constituency) {
     return data;
 }
 
+// ✅ Retrieve constituencies
+async function getAllConstituencies() {
+    const { data, error } = await supabase
+        .from("constituencies") 
+        .select("id");
+
+    if (error) throw error;
+    return data;
+}
+
+
 // ✅ Retrieve encrypted & decrypted totals for a constituency
 async function getTallyByConstituency(constituency) {
     const { data, error } = await supabase
         .from("constituencies")
-        .select("encrypted_tally, decrypted_tally")
+        .select("encrypted_tally, candidates, decrypted_tally")
         .eq("id", constituency); 
     
     if (error) {
@@ -42,4 +53,4 @@ async function getVoteHashByBallotID(ballotId) {
     return data;
 }
 
-module.exports = { getVotesByConstituency, getTallyByConstituency, getVoteHashByBallotID };
+module.exports = { getVotesByConstituency, getTallyByConstituency, getVoteHashByBallotID, getAllConstituencies };

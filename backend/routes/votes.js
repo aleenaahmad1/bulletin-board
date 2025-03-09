@@ -1,5 +1,5 @@
 const express = require("express");
-const { getVotesByConstituency, getTallyByConstituency, getVoteHashByBallotID } = require("../db/queries");
+const { getVotesByConstituency, getTallyByConstituency, getVoteHashByBallotID, getAllConstituencies } = require("../db/queries");
 
 const router = express.Router();
 
@@ -9,6 +9,19 @@ router.get("/votes/:constituency", async (req, res) => {
         const votes = await getVotesByConstituency(req.params.constituency);
         res.json(votes);
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// ✅ Route: Get all constituencies
+router.get("/constituencies", async (req, res) => {
+    try {
+        console.log("🔍 Fetching constituencies from database...");
+        const constituencies = await getAllConstituencies();
+        console.log("✅ Constituencies Retrieved:", constituencies);
+        res.json(constituencies);
+    } catch (error) {
+        console.error("❌ Error fetching constituencies:", error.message);
         res.status(500).json({ error: error.message });
     }
 });
@@ -30,7 +43,7 @@ router.get("/tally/:constituency", async (req, res) => {
 });
 
 // ✅ Route: Get vote hash by ballot ID
-router.get("/verify/:ballot_id", async (req, res) => {
+router.get("/verify-vote/:ballot_id", async (req, res) => {
     try {
         const voteHash = await getVoteHashByBallotID(req.params.ballot_id);
         res.json(voteHash);
