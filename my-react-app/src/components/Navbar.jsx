@@ -7,11 +7,11 @@ function Navbar() {
     <nav className="navbar">
       <div className="logo">VERIVOTE</div>
       <div className="nav-links">
-        <Link to="/" className="nav-item">HOME</Link>
-        <Link to="/results" className="nav-item">RESULTS</Link>
-        <Link to="/about" className="nav-item">ABOUT</Link>
-        <Link to="/downloads" className="nav-item">DOWNLOADS</Link>
-        <Link to="/help" className="nav-item">HELP</Link>
+        <Link to="/" className="nav-item">Home</Link>
+        <Link to="/results" className="nav-item">Results</Link>
+        <Link to="/about" className="nav-item">About</Link>
+        <Link to="/downloads" className="nav-item">Downloads</Link>
+        <Link to="/help" className="nav-item">Help</Link>
       </div>
     </nav>
   );
