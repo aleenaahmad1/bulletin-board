@@ -5,6 +5,12 @@ body, html {
     background-color: white;
     font-family: Arial, sans-serif;
   }
+
+/* Ensure all text elements are black */
+body, h1, h2, h3, h4, h5, h6, p, span, label, div {
+  color: black !important;  /* Ensure text remains black */
+}
+
   
   /* Ensure all pages have consistent styling */
   .app-container {

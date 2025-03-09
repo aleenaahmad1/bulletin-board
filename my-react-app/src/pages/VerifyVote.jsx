@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import dataService from "../services/dataService";
-import "../styles/VerifyVote.css"; // Import the CSS file
+import "../styles/VerifyVote.css"; 
 
 function VerifyVote() {
   const [ballotId, setBallotId] = useState("");
@@ -47,11 +47,9 @@ function VerifyVote() {
           {vote.error ? (
             <p className="error-message">{vote.error}</p>
           ) : (
-            <div className="ballot-card">
-              <h3>BALLOT ID {vote.ballot_id}</h3>
-              <p>HASH: {vote.voter_receipt_hash}</p>
-              <p>2022-09-27 18:00:00.000</p>
-              <p>PS#23890</p>
+            <div style = {{color: "black"}}className="ballot-card">
+              <h3>BALLOT ID: {vote.ballot_id}</h3>
+              <p>HASH: {vote.vote_hash}</p>
             </div>
           )}
         </div>

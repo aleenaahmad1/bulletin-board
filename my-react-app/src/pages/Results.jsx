@@ -1,33 +1,81 @@
 import React, { useEffect, useState } from "react";
-import dataService from "../services/dataService"; // Placeholder for data fetching
+import dataService from "../services/dataService";
+import "../styles/Results.css"; // Import the CSS file
 
 function Results() {
   const [results, setResults] = useState(null);
+  const [constituencies, setConstituencies] = useState([]);
+  const [selectedConstituency, setSelectedConstituency] = useState("");
 
   useEffect(() => {
-    const fetchResults = async () => {
-      const data = await dataService.getResults();
-      setResults(data);
+    // Fetch available constituencies from DB
+    const fetchConstituencies = async () => {
+      const data = await dataService.getConstituencies();
+      setConstituencies(data);
+      if (data.length > 0) {
+        setSelectedConstituency(data[0]); // Default to first constituency
+      }
     };
-    fetchResults();
+
+    fetchConstituencies();
   }, []);
 
+  useEffect(() => {
+    // Fetch results when constituency is selected
+    if (selectedConstituency) {
+      const fetchResults = async () => {
+        const data = await dataService.getResults(selectedConstituency);
+        setResults(data);
+      };
+      fetchResults();
+    }
+  }, [selectedConstituency]);
+
+  // Find the candidate with the max votes
+  let maxVotes = results
+    ? Math.max(...results.decrypted_tally.split(",").map(Number))
+    : 0;
+
   return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      <h2>Election Results</h2>
-      {results ? (
-        <>
-          <h3>Decrypted Tally</h3>
-          <ul>
-            {Object.entries(results.decrypted_tally).map(([candidate, votes]) => (
-              <li key={candidate}>{candidate}: {votes} votes</li>
-            ))}
-          </ul>
-          <h3>Encrypted Tally</h3>
-          <p>{results.encrypted_tally}</p>
-        </>
-      ) : (
-        <p>Loading results...</p>
+    <div className="results-container">
+      {/* Page Title */}
+      <h1 className="results-title">Election Results</h1>
+
+      {/* Constituency Dropdown */}
+      <select
+        className="dropdown"
+        value={selectedConstituency}
+        onChange={(e) => setSelectedConstituency(e.target.value)}
+      >
+        {constituencies.map((constituency) => (
+          <option key={constituency.id} value={constituency.id}>
+            {constituency.id}
+          </option>
+        ))}
+      </select>
+
+      {/* Results Card */}
+      {results && (
+        <div className="results-card">
+          {/* Header Row */}
+          <div className="results-header">
+            <span className="header-candidate">Candidates</span>
+            <span className="header-votes">Votes</span>
+          </div>
+
+          {/* Candidate Rows */}
+          {results.candidates.split(",").map((candidate, index) => {
+            const votes = results.decrypted_tally.split(",")[index].trim();
+            return (
+              <div key={candidate} className="results-row">
+                <span className={`candidate-name ${votes == maxVotes ? "highlight" : ""}`}>
+                  {candidate.trim()}
+                </span>
+                <span className="candidate-votes">{votes} votes</span>
+              </div>
+            );
+          })}
+        </div>
       )}
     </div>
   );
