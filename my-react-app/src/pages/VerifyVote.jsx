@@ -54,21 +54,22 @@ function VerifyVote() {
       setErrorMessage("");
     } else {
       setSelectedHash(null);
-      setErrorMessage("Vote not found");
+      setErrorMessage("Vote Hash not found");
     }
   };
 
   return (
     <div className="verify-container">
       {/* Title and Description */}
-      <h1 className="page-title" style={{marginTop: '5px'}}>Check Your Vote</h1>
+      <h1 className="page-title">Verify Your Vote</h1>
       <p className="page-description">Using the receipt received when casting vote, you can verify if your vote has been recorded correctly.</p>
 
       {/* Two-column Layout */}
       <div className="verify-content">
         {/* Left Side - Choose Constituency & Polling Station */}
         <div className="left-section">
-          <h2 className="step-title">Step 1: Choose your constituency and polling station</h2>
+          <h2 className="step-title">Step 1: Select your constituency and polling station number.</h2>
+          <p className="card-description">This will display the hash IDs of all votes casted at the chosen polling station and constituency.</p>
           <div className="filters">
             <select className="dropdown" value={selectedConstituency} onChange={(e) => setSelectedConstituency(e.target.value)}>
               {constituencies.map((c) => (
@@ -78,11 +79,12 @@ function VerifyVote() {
 
             <select className="dropdown" value={selectedPollingStation} onChange={(e) => setSelectedPollingStation(e.target.value)}>
               {pollingStations.map((p) => (
-                <option key={p.name} value={p.name}>{`Polling Station ${p.name}`}</option>
+                <option key={p.name} value={p.name}>{`${p.name}`}</option>
               ))}
             </select>
+            {/* <p style={{color: 'black'}}>Polling Station</p> */}
           </div>
-          <button className="fetch-button" onClick={fetchVoteHashes}>Fetch Votes</button>
+          <button className="fetch-button" onClick={fetchVoteHashes}>Fetch Vote Hashes</button>
 
           {/* Display Vote Hashes */}
           <div className="ballot-grid">
@@ -96,7 +98,9 @@ function VerifyVote() {
 
         {/* Right Side - Search for Vote Hash */}
         <div className="right-section">
+          {/* <div className="step-title-div"><h2 className="step-title">Step 2: Search for your vote's hash</h2></div> */}
           <h2 className="step-title">Step 2: Search for your vote's hash</h2>
+          <p className="card-description">To check if your vote exists in the stored votes, enter the hash on your voter receipt. If your vote has been recorded correctly, it will be highlighted in the displayed votes.</p>
           <div className="search-bar">
             <input type="text" placeholder="Search for your hash" value={hash} onChange={(e) => setHash(e.target.value)} />
             <button className="search-button" onClick={handleSearch}>🔍</button>

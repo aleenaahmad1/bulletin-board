@@ -17,15 +17,21 @@
   /* Title Styling */
   /* Title and Description */
   .page-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 10px;  
+    font-size: 2.5rem;  
+    font-weight: bold;
+    margin-left: 40%;
+    margin-top: 80px;   
+    color: black;      
+    text-align: center;
+    width: 100%;
   }
-
   .page-description {
     font-size: 1.1rem;
     color: gray;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-left: 65%;
+    margin-bottom: 40px;
+    width: 100%;
   }
 
   .title {
@@ -80,16 +86,19 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+    background-color: #f8f9fa;
+    padding: 2%;
+    border-radius: 10px;
     /* width: 90%;
     max-width: 800px;
     margin-bottom: 20px; */
   }
   
   .ballot-card {
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 5px;
+    border: 1px solid #8fb0d1;
     border-radius: 5px;
-    background: #f8f9fa;
+    background: #a2c5e7;
     width: 150px;
     text-align: center;
     color: black;
@@ -139,14 +148,33 @@
   /* Two-Column Layout */
 .verify-content {
   display: flex;
-  width: 90%;
+  width: 100%;
+  margin-left: 40%;
   max-width: 1000px;
   justify-content: space-between;
   height: 70vh;
 }
 
+.card-description {
+  color: black;
+  margin-bottom: 5%;
+}
+
 /* Left & Right Sections */
-.left-section, .right-section {
+.left-section {
+  width: 48%;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* margin-left: 40%; */
+  /* margin: auto */
+}
+
+.right-section{
   width: 48%;
   padding: 20px;
   background: #f8f9fa;
@@ -162,5 +190,11 @@
   margin-bottom: 15px;
   color: black;
 }
+
+/* .step-title-div {
+  background-color: #21487c;
+  padding: 2%;
+  width: 100%;
+} */
 
   
