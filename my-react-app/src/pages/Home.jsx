@@ -6,11 +6,15 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ textAlign: "center"}}>
-      <h1>Welcome to the VeriVote Bulletin Board</h1>
-      <p>Verify votes and view election results.</p>
-      <button onClick={() => navigate("/results")}>View Results</button>
-      <button onClick={() => navigate("/verify-vote")}>Verify Your Vote</button>
+    <div style={{ textAlign: "center", width: "100vw" }}>
+      <h1 className="home-title">Welcome to the VeriVote Bulletin Board</h1>
+      <p className="home-subtext">Verify votes and view election results.</p>
+      <button className="button2" style={{marginRight: '10px'}} onClick = {() => navigate("/results")}>
+        <span>View Results</span>
+      </button>
+      <button className="button2" style={{marginLeft: '10px'}} onClick = {() => navigate("/verify-vote")}>
+        <span>Verify your Vote</span>
+      </button>
     </div>
   );
 }
