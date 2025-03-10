@@ -1,62 +1,115 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dataService from "../services/dataService";
-import "../styles/VerifyVote.css"; 
+import "../styles/VerifyVote.css";
 
 function VerifyVote() {
-  const [ballotId, setBallotId] = useState("");
-  const [vote, setVote] = useState(null);
+  const [constituencies, setConstituencies] = useState([]);
+  const [pollingStations, setPollingStations] = useState([]);
+  const [selectedConstituency, setSelectedConstituency] = useState("");
+  const [selectedPollingStation, setSelectedPollingStation] = useState("");
+  const [voteHashes, setVoteHashes] = useState([]);
+  const [hash, setHash] = useState("");
+  const [selectedHash, setSelectedHash] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSearch = async () => {
-    const data = await dataService.getVote(ballotId);
-    setVote(data);
+  // Fetch constituencies on page load
+  useEffect(() => {
+    async function fetchConstituencies() {
+      const data = await dataService.getConstituencies();
+      setConstituencies(data);
+      if (data.length > 0) {
+        setSelectedConstituency(data[0].id);
+      }
+    }
+    fetchConstituencies();
+  }, []);
+
+  // Fetch polling stations when constituency is selected
+  useEffect(() => {
+    if (selectedConstituency) {
+      async function fetchPollingStations() {
+        const data = await dataService.getPollingStations(selectedConstituency);
+        setPollingStations(data);
+        if (data.length > 0) {
+          setSelectedPollingStation(data[0].name);
+        }
+      }
+      fetchPollingStations();
+    }
+  }, [selectedConstituency]);
+
+  // Fetch vote hashes when "Fetch Votes" button is clicked
+  const fetchVoteHashes = async () => {
+    if (selectedConstituency && selectedPollingStation) {
+      const data = await dataService.getVoteHashes(selectedConstituency, selectedPollingStation);
+      setVoteHashes(data);
+    }
+  };
+
+  // Handle searching for a hash
+  const handleSearch = () => {
+    const foundVote = voteHashes.find((vote) => vote.vote_hash === hash);
+    if (foundVote) {
+      setSelectedHash(hash);
+      setErrorMessage("");
+    } else {
+      setSelectedHash(null);
+      setErrorMessage("Vote not found");
+    }
   };
 
   return (
     <div className="verify-container">
-      <h2 className="title">ENCRYPTED VOTES LIST</h2>
+      {/* Title and Description */}
+      <h1 className="page-title" style={{marginTop: '5px'}}>Check Your Vote</h1>
+      <p className="page-description">Using the receipt received when casting vote, you can verify if your vote has been recorded correctly.</p>
 
-      {/* Dropdowns for region and polling station */}
-      <div className="filters">
-        <select className="dropdown">
-          <option>NA-123</option>
-          <option>NA-456</option>
-          <option>NA-789</option>
-        </select>
+      {/* Two-column Layout */}
+      <div className="verify-content">
+        {/* Left Side - Choose Constituency & Polling Station */}
+        <div className="left-section">
+          <h2 className="step-title">Step 1: Choose your constituency and polling station</h2>
+          <div className="filters">
+            <select className="dropdown" value={selectedConstituency} onChange={(e) => setSelectedConstituency(e.target.value)}>
+              {constituencies.map((c) => (
+                <option key={c.id} value={c.id}>{c.id}</option>
+              ))}
+            </select>
 
-        <select className="dropdown">
-          <option>PollingStation-23</option>
-          <option>PollingStation-45</option>
-          <option>PollingStation-67</option>
-        </select>
-      </div>
+            <select className="dropdown" value={selectedPollingStation} onChange={(e) => setSelectedPollingStation(e.target.value)}>
+              {pollingStations.map((p) => (
+                <option key={p.name} value={p.name}>{`Polling Station ${p.name}`}</option>
+              ))}
+            </select>
+          </div>
+          <button className="fetch-button" onClick={fetchVoteHashes}>Fetch Votes</button>
 
-      {/* Search Bar */}
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search by Ballot ID ..."
-          value={ballotId}
-          onChange={(e) => setBallotId(e.target.value)}
-        />
-        <button className="search-button" onClick={handleSearch}>🔍</button>
-      </div>
+          {/* Display Vote Hashes */}
+          <div className="ballot-grid">
+            {voteHashes.map((vote) => (
+              <div key={vote.vote_hash} className={`ballot-card ${selectedHash === vote.vote_hash ? "selected" : ""}`}>
+                <p>{vote.vote_hash}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
-      {/* Results Display */}
-      {vote && (
-        <div className="ballot-grid">
-          {vote.error ? (
-            <p className="error-message">{vote.error}</p>
-          ) : (
-            <div style = {{color: "black"}}className="ballot-card">
-              <h3>BALLOT ID: {vote.ballot_id}</h3>
-              <p>HASH: {vote.vote_hash}</p>
+        {/* Right Side - Search for Vote Hash */}
+        <div className="right-section">
+          <h2 className="step-title">Step 2: Search for your vote's hash</h2>
+          <div className="search-bar">
+            <input type="text" placeholder="Search for your hash" value={hash} onChange={(e) => setHash(e.target.value)} />
+            <button className="search-button" onClick={handleSearch}>🔍</button>
+          </div>
+
+          {/* Error Message Display */}
+          {errorMessage && (
+            <div className="error-card">
+              <p>{errorMessage}</p>
             </div>
           )}
         </div>
-      )}
-
-      {/* Pagination (Placeholder) */}
-      <p className="pagination">PAGE 1/500</p>
+      </div>
     </div>
   );
 }

@@ -41,16 +41,39 @@ async function getTallyByConstituency(constituency) {
     return data[0];  // Return first entry (assuming only one exists)
 }
 
-// ✅ Retrieve vote hash by ballot ID
-async function getVoteHashByBallotID(ballotId) {
+// ✅ Get all polling stations for a given constituency
+async function getPollingStationsByConstituency(constituencyId) {
+    const { data, error } = await supabase
+        .from("polling stations")
+        .select("constituency, name")
+        .eq("constituency", constituencyId); // Filter by constituency
+
+    if (error) throw error;
+    return data;
+}
+
+// ✅ Get all vote hashes for a given constituency and polling station
+async function getVoteHashes(constituencyId, pollingStationId) {
     const { data, error } = await supabase
         .from("votes")
-        .select("ballot_id, vote_hash")
-        .eq("ballot_id", ballotId)
+        .select("vote_hash")
+        .eq("constituency", constituencyId)
+        .eq("polling_station", pollingStationId);
+
+    if (error) throw error;
+    return data;
+}
+
+// ✅ Retrieve vote hash by ballot ID
+async function searchVoteHash(hash) {
+    const { data, error } = await supabase
+        .from("votes")
+        .select("vote_hash")
+        .eq("vote_hash", hash)
         .single();
 
     if (error) throw error;
     return data;
 }
 
-module.exports = { getVotesByConstituency, getTallyByConstituency, getVoteHashByBallotID, getAllConstituencies };
+module.exports = { getVotesByConstituency, getTallyByConstituency, searchVoteHash, getAllConstituencies, getPollingStationsByConstituency, getVoteHashes};

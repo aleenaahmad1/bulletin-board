@@ -1,5 +1,5 @@
 const express = require("express");
-const { getVotesByConstituency, getTallyByConstituency, getVoteHashByBallotID, getAllConstituencies } = require("../db/queries");
+const { getVotesByConstituency, getTallyByConstituency, searchVoteHash, getAllConstituencies, getVoteHashes, getPollingStationsByConstituency } = require("../db/queries");
 
 const router = express.Router();
 
@@ -43,10 +43,31 @@ router.get("/tally/:constituency", async (req, res) => {
 });
 
 // ✅ Route: Get vote hash by ballot ID
-router.get("/verify-vote/:ballot_id", async (req, res) => {
+router.get("/verify-vote/:hash", async (req, res) => {
     try {
-        const voteHash = await getVoteHashByBallotID(req.params.ballot_id);
+        const voteHash = await searchVoteHash(req.params.hash);
         res.json(voteHash);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// ✅ Route: Get all polling stations for a constituency
+router.get("/polling-stations/:constituencyId", async (req, res) => {
+    try {
+        const pollingStations = await getPollingStationsByConstituency(req.params.constituencyId);
+        res.json(pollingStations);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// ✅ Route: Get all vote hashes for a given constituency and polling station
+router.get("/vote-hashes/:constituencyId/:pollingStationId", async (req, res) => {
+    try {
+        const { constituencyId, pollingStationId } = req.params;
+        const voteHashes = await getVoteHashes(constituencyId, pollingStationId);
+        res.json(voteHashes);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
