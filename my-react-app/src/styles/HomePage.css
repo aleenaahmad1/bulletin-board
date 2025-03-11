@@ -5,6 +5,7 @@
   justify-content: center;
   text-align: center;
   height: 100vh;
+  color: black;
   /* Full height of viewport */
 }
 
@@ -12,11 +13,13 @@
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 10px;
+  color: black;
 }
 
 .home-subtext {
   font-size: 1.2rem;
   margin-bottom: 20px;
+  color: black;
 }
 
 

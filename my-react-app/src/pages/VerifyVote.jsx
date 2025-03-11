@@ -61,17 +61,17 @@ function VerifyVote() {
   return (
     <div className="verify-container">
       {/* Title and Description */}
-      <h1 className="page-title">Verify Your Vote</h1>
-      <p className="page-description">Using the receipt received when casting vote, you can verify if your vote has been recorded correctly.</p>
+      <h1 className="page-title-vote">Verify Your Vote</h1>
+      <p className="page-description-vote">Using the receipt received when casting vote, you can verify if your vote has been recorded correctly.</p>
 
       {/* Two-column Layout */}
       <div className="verify-content">
         {/* Left Side - Choose Constituency & Polling Station */}
-        <div className="left-section">
+        <div className="left-section-vote">
           <h2 className="step-title">Step 1: Select your constituency and polling station number.</h2>
           <p className="card-description">This will display the hash IDs of all votes casted at the chosen polling station and constituency.</p>
           <div className="filters">
-            <select className="dropdown" value={selectedConstituency} onChange={(e) => setSelectedConstituency(e.target.value)}>
+            <select className="dropdown-vote" value={selectedConstituency} onChange={(e) => setSelectedConstituency(e.target.value)}>
               {constituencies.map((c) => (
                 <option key={c.id} value={c.id}>{c.id}</option>
               ))}
@@ -97,7 +97,7 @@ function VerifyVote() {
         </div>
 
         {/* Right Side - Search for Vote Hash */}
-        <div className="right-section">
+        <div className="right-section-vote">
           {/* <div className="step-title-div"><h2 className="step-title">Step 2: Search for your vote's hash</h2></div> */}
           <h2 className="step-title">Step 2: Search for your vote's hash</h2>
           <p className="card-description">To check if your vote exists in the stored votes, enter the hash on your voter receipt. If your vote has been recorded correctly, it will be highlighted in the displayed votes.</p>

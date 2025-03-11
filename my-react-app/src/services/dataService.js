@@ -2,9 +2,9 @@ const BASE_URL = "http://localhost:5000/api"; // Change when deploying
 
 const dataService = {
   // ✅ Fetch election results (decrypted & encrypted tally)
-  async getResults() {
+  async getResults(constituency) {
     try {
-      const response = await fetch(`${BASE_URL}/tally/na-1`);
+      const response = await fetch(`${BASE_URL}/tally/${constituency}`);
       if (!response.ok) throw new Error("Failed to fetch results");
       return await response.json();
     } catch (error) {
