@@ -168,3 +168,16 @@
     background-color: #2d4373;
   }
   
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;  /* Ensure it overlays the whole screen */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.7); /* Light overlay */
+    z-index: 9999; /* Ensure it's on top */
+}
+
